@@ -1,14 +1,14 @@
-<template name="main">
+<template name="users">
 
   <div class="card">
 
     <ul class="table-view">
-      {{#each projects}}
+      {{#each users}}
       <li class="table-view-cell">
         <a class="push-right">
-          <strong>{{company.name}}</strong>
+          <strong>{{username}}</strong>
           <p>
-            {{company.address}}
+            {{role}}
           </p>
         </a>
       </li>

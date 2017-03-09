@@ -6,6 +6,7 @@ You'll need to install python, flask, sqlalchemy and sqlite for this to work. I'
 
 ```console
 $ sudo apt-get install python python-flask python-sqlalchemy sqlite3
+$ pip install -U flask-cors
 ```
 
 ## Configuration

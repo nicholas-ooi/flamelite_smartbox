@@ -5,12 +5,14 @@ import flask
 import json
 import os
 import lib.queries as queries
+from flask_cors import CORS, cross_origin
 
 # globals
 server_ip = 'localhost'
 server_port = 8080
 app = flask.Flask(__name__)
 app.secret_key = os.urandom(24)
+CORS(app)
 images_dir = "images"
 pages_dir = "pages"
 js_dir = "js"

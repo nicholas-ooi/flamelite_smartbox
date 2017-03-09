@@ -1,25 +1,25 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
-
-import '../html/body.html';
+import { HTTP } from 'meteor/http';
 
 Template.main.onCreated(function() {
-  this.counter = new ReactiveVar(0);
 
-  // get JSON from python  display all projects?
-
+  HTTP.call("GET", "http://localhost:8080/ws/list_projects",
+  (error, result) => {
+    if (!error) {
+      Session.set("projects", JSON.parse(result.content));
+    }
+  });
 
 });
 
 Template.main.helpers({
-  counter() {
-    return Template.instance().counter.get();
+  projects:() => {
+    return Session.get("projects");
   }
 });
 
 Template.main.events({
-  'click button'(event, instance) {
-    instance.counter.set(instance.counter.get() + 1);
-  },
+
 });

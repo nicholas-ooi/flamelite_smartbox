@@ -1,14 +1,14 @@
-<template name="main">
+<template name="employees">
 
   <div class="card">
 
     <ul class="table-view">
-      {{#each projects}}
+      {{#each employees}}
       <li class="table-view-cell">
         <a class="push-right">
-          <strong>{{company.name}}</strong>
+          <strong>{{name}}</strong>
           <p>
-            {{company.address}}
+            {{job_title}}
           </p>
         </a>
       </li>

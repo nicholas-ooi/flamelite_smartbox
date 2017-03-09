@@ -19,7 +19,7 @@ $ python smartbox.py
 ```
 
 ## Visiting the page
-You can then use the browser to view the site by typing http://<server_ip>:<server_port>/.
+You can then use the browser to view the site by typing `http://<server_ip>:<server_port>/`.
 
 ## Easy access to available URLs
 Assuming you kept the server_ip as localhost and server_port as 8080, here are some quick access links after you launch the server.

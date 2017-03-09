@@ -24,7 +24,7 @@ You can then use the browser to view the site by typing `http://<server_ip>:<ser
 ## Easy access to available URLs
 Assuming you kept the server_ip as localhost and server_port as 8080, here are some quick access links after you launch the server.
 <ul>
-<li><a href='http://localhost:8080/ws/list_users' target='_blank'>http://localhost:8080/ws/list_users</a></li>
+<li>[http://localhost:8080/ws/list_users](http://localhost:8080/ws/list_users){:target='_blank'}</li>
 <li><a href='http://localhost:8080/ws/list_employees'>http://localhost:8080/ws/list_employees</a></li>
 <li><a href='http://localhost:8080/ws/list_companies'>http://localhost:8080/ws/list_companies</a></li>
 <li><a href='http://localhost:8080/ws/list_projects'>http://localhost:8080/ws/list_projects</a></li>

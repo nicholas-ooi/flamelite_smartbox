@@ -3,23 +3,24 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 
-Template.main.onCreated(function() {
+Template.projects.onCreated(function() {
 
   HTTP.call("GET", "http://localhost:8080/ws/list_projects",
   (error, result) => {
     if (!error) {
       Session.set("projects", JSON.parse(result.content));
+      console.log(JSON.parse(result.content));
     }
   });
 
 });
 
-Template.main.helpers({
+Template.projects.helpers({
   projects:() => {
     return Session.get("projects");
   }
 });
 
-Template.main.events({
+Template.projects.events({
 
 });

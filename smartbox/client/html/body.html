@@ -2,11 +2,21 @@
 
   {{ > header}}
   <div class="content">
-    <p class="content-padded"></p>
-    <h1>
-    </h1>
-    {{> Template.dynamic template=main}}
+    <p class="content">
+      {{> Template.dynamic template=main}}
+    </p>
+    {{>error}}
   </div>
+  {{#if isBottomNav}}
   {{> bottomnav}}
+  {{/if}}
 
 </body>
+
+<Template name="error">
+  {{#if errorMsg}}
+  <p class="error">
+    {{errorMsg}}
+  </p>
+  {{/if}}
+</Template>

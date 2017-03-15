@@ -1,0 +1,53 @@
+<template name="status">
+
+  <div class="pushContent">
+    <h4 class="stitle pull-left">
+      Status Installing Product
+    </h4>
+    <a href="/updateStatus" class="statusLink pull-right">
+      <button class="btn btn-positive btn-block">
+        Update
+      </button>
+    </a>
+    <div class="clear">
+    </div>
+
+    <ul class="table-view">
+      {{#each statuses}}
+      <li class="table-view-cell">
+        <strong>{{name}}</strong>
+        <p>
+          {{start_date}} - {{end_date}}
+        </p>
+      </li>
+      {{/each}}
+    </ul>
+
+    <h4 class="stitle">
+      Issues
+    </h4>
+    <ul class="table-view" id="complaintsTable">
+      {{#each complaints}}
+      <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer{{@index}}">
+        <span>
+          {{resolution_status}}
+        </span>
+      </li>
+      <li id="accordian-drawer{{@index}}" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
+        <ul class="table-view">
+          <li class="table-view-cell accordion-drawer-content">
+            <h4 class="text-left reco-title">Complaint</h4>
+            <p> {{complaint}}</p>
+          </li>
+          <li class="table-view-cell accordion-drawer-content">
+            <h4 class="text-left reco-title">Action Taken</h4>
+            <p>{{action_taken}}</p>
+          </li>
+        </ul>
+      </li>
+      {{/each}}
+
+    </ul>
+  </div>
+
+</template>

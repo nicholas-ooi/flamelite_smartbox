@@ -1,0 +1,30 @@
+<template name="workers">
+  <div class="pushContent">
+
+    <h4 class="stitle pull-left">
+      Workers
+    </h4>
+    <a href="/recordWorkHours" class="statusLink pull-right">
+      <button class="btn btn-positive btn-block">
+        Record Work Hours
+      </button>
+    </a>
+    <div class="clear">
+    </div>
+    <div class="card">
+
+      <ul class="table-view">
+        {{#each workers}}
+        <li class="table-view-cell">
+          <strong>{{name}}</strong>
+          <p>
+            {{job_title}}
+            {{salary}}
+          </p>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+
+</template>

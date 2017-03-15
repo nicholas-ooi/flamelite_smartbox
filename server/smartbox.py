@@ -50,22 +50,22 @@ def is_logged_in():
 
 @app.route("/ws/login", methods=['GET','POST'])
 def user_login():
-	if is_logged_in():
-		return flask.redirect(flask.url_for('list_users'))
+	# if is_logged_in():
+	# 	return flask.redirect(flask.url_for('list_users'))
 
 	if flask.request.method == 'POST':
-		username = flask.request.form.get('username')
-		password = flask.request.form.get('password')
-
+		username = flask.request.json.get("username")
+		password = flask.request.json.get("password")
 		if username and password:
 			user = queries.user_login(username=username, password=password)
 			if user:
-				flask.session['user'] = json.loads("%s" % user)
-				return flask.redirect(flask.url_for('list_users'))
+				return "%s" % user
+				# flask.session['user'] = json.loads("%s" % user)
+				# return flask.redirect(flask.url_for('list_users'))
 
-		message = "Invalid username or password "
-		message += "<a href='login'><input type='button' value='OK'/></a>"
-		return message
+		# message = "Invalid username or password "
+		# message += "<a href='login'><input type='button' value='OK'/></a>"
+		return "None"
 	return flask.send_from_directory("pages", 'login.html')
 
 @app.route("/ws/logout")

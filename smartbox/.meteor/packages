@@ -24,3 +24,5 @@ session
 http
 kadira:flow-router
 kadira:blaze-layout
+less
+mdg:camera

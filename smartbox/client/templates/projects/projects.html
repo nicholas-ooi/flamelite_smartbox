@@ -1,0 +1,42 @@
+<template name="userProfile">
+
+  <div class="profileArea">
+    <div class="profileBox">
+      <span class="profileName">
+        {{name}}
+      </span>
+      <br  />
+      <span class="profileTitle">
+        {{title}}
+      </span>
+    </div>
+    <img class="profileImage pull-right" src="" alt="static photo here" />
+    <div class="clear"></div>
+  </div>
+
+</template>
+
+<template name="projects">
+
+  {{>userProfile}}
+  <p class="content-padded">
+    <h4 class="stitle">
+      Ongoing/Upcoming Projects
+    </h4>
+    <div class="card">
+      <ul class="table-view">
+        {{#each projects}}
+        <li class="table-view-cell">
+          <a href="/projectDetails/{{project_id}}" class="push-right">
+            <strong>{{company.name}}</strong>
+            <p>
+              {{company.address}}
+            </p>
+          </a>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </p>
+
+</template>

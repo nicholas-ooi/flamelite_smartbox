@@ -25,49 +25,37 @@ You can then use the browser to view the site by typing `http://<server_ip>:<ser
 ## Easy access to available URLs
 Assuming you kept the server_ip as localhost and server_port as 8080, here are some quick access links after you launch the server.
 <ul>
-	<li>
-		<a href='http://localhost:8080/ws/login'>http://localhost:8080/ws/login</a><br/>
-		Params required (Only POST request method accepted):<br/>
-		- username<br/>
-		- password<br/>
-	</li>
-
-	<li>
-		<a href='http://localhost:8080/ws/list_site_manager_projects'>http://localhost:8080/ws/list_site_manager_projects</a><br/>
-		Params required (Only GET request method accepted):<br/>
-		- site_manager_id (use the user_id, not the employee_id)<br/>
-	</li>
-
-	<li>
-		<a href='http://localhost:8080/ws/retrieve_project_details'>http://localhost:8080/ws/retrieve_project_details</a><br/>
-		Params required (Only GET request method accepted):<br/>
-		- project_id<br/>
-	</li>
-
-	<li>
-		<a href='http://localhost:8080/ws/retrieve_project_statuses'>http://localhost:8080/ws/retrieve_project_statuses</a><br/>
-		Params required (Only GET request method accepted):<br/>
-		- project_id<br/>
-	</li>
-
-	<li>
-		<a href='http://localhost:8080/ws/retrieve_project_complaints'>http://localhost:8080/ws/retrieve_project_complaints</a><br/>
-		Params required (Only GET request method accepted):<br/>
-		- project_id<br/>
-	</li>
-
-	<li>
-		<a href='http://localhost:8080/ws/retrieve_project_workers'>http://localhost:8080/ws/retrieve_project_workers</a><br/>
-		Params required (Only GET request method accepted):<br/>
-		- project_id<br/>
-	</li>
-
-	<li>
-		<a href='http://localhost:8080/ws/update_worker_work_hours'>http://localhost:8080/ws/update_worker_work_hours</a><br/>
-		Params required (Only GET request method accepted):<br/>
-		- employee_id<br/>
-		- date (YYYY-mm-dd format)<br/>
-		- start_time (HH:MM format)<br/>
-		- end_time (HH:MM format)<br/>
-	</li>
+<li><a href='http://localhost:8080/ws/login'>http://localhost:8080/ws/login</a><br/>
+Params required (Only POST request method accepted):<br/>
+- username<br/>
+- password<br/>
+</li>
+<li><a href='http://localhost:8080/ws/list_site_manager_projects'>http://localhost:8080/ws/list_site_manager_projects</a><br/>
+Params required (Only GET request method accepted):<br/>
+- site_manager_id (use the user_id, not the employee_id)<br/>
+</li>
+<li><a href='http://localhost:8080/ws/retrieve_project_details'>http://localhost:8080/ws/retrieve_project_details</a><br/>
+Params required (Only GET request method accepted):<br/>
+- project_id<br/>
+</li>
+<li><a href='http://localhost:8080/ws/retrieve_project_statuses'>http://localhost:8080/ws/retrieve_project_statuses</a><br/>
+Params required (Only GET request method accepted):<br/>
+- project_id<br/>
+</li>
+<li><a href='http://localhost:8080/ws/retrieve_project_complaints'>http://localhost:8080/ws/retrieve_project_complaints</a><br/>
+Params required (Only GET request method accepted):<br/>
+- project_id<br/>
+</li>
+<li>
+<a href='http://localhost:8080/ws/retrieve_project_workers'>http://localhost:8080/ws/retrieve_project_workers</a><br/>
+Params required (Only GET request method accepted):<br/>
+- project_id<br/>
+</li>
+<li><a href='http://localhost:8080/ws/update_worker_work_hours'>http://localhost:8080/ws/update_worker_work_hours</a><br/>
+Params required (Only GET request method accepted):<br/>
+- employee_id<br/>
+- date (YYYY-mm-dd format)<br/>
+- start_time (HH:MM format)<br/>
+- end_time (HH:MM format)<br/>
+</li>
 </ul>

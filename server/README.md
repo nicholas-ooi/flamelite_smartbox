@@ -25,16 +25,57 @@ You can then use the browser to view the site by typing `http://<server_ip>:<ser
 ## Easy access to available URLs
 Assuming you kept the server_ip as localhost and server_port as 8080, here are some quick access links after you launch the server.
 <ul>
-<li><a href='http://localhost:8080/ws/list_users'>http://localhost:8080/ws/list_users</a></li>
-<li><a href='http://localhost:8080/ws/list_employees'>http://localhost:8080/ws/list_employees</a></li>
-<li><a href='http://localhost:8080/ws/list_companies'>http://localhost:8080/ws/list_companies</a></li>
-<li><a href='http://localhost:8080/ws/list_projects'>http://localhost:8080/ws/list_projects</a></li>
-<li><a href='http://localhost:8080/ws/list_site_manager_projects?site_manager_id=2'>http://localhost:8080/ws/list_site_manager_projects?site_manager_id=2</a></li>
-<li><a href='http://localhost:8080/ws/list_workers_without_project?start_date=2017-03-10&end_date=2017-03-21'>http://localhost:8080/ws/list_workers_without_project?start_date=2017-03-10&end_date=2017-03-21</a></li>
-</ul>
+	<li>
+		<a href='http://localhost:8080/ws/login'>http://localhost:8080/ws/login</a><br/>
+		<ul>Params required (Only POST request method accepted):
+			<li>username</li>
+			<li>password</li>
+		</ul>
+	</li>
 
-URLs that have some kind of HTML formatting.
-<ul>
-<li><a href='http://localhost:8080/ws/login'>http://localhost:8080/ws/login</a></li>
-<li><a href='http://localhost:8080/list_projects.html'>http://localhost:8080/list_projects.html</a></li>
+	<li>
+		<a href='http://localhost:8080/ws/list_site_manager_projects'>http://localhost:8080/ws/list_site_manager_projects</a><br/>
+		<ul>Params required (Only GET request method accepted):
+			<li>site_manager_id (use the user_id, not the employee_id)</li>
+		</ul>
+	</li>
+
+	<li>
+		<a href='http://localhost:8080/ws/retrieve_project_details'>http://localhost:8080/ws/retrieve_project_details</a><br/>
+		<ul>Params required (Only GET request method accepted):
+			<li>project_id</li>
+		</ul>
+	</li>
+
+	<li>
+		<a href='http://localhost:8080/ws/retrieve_project_statuses'>http://localhost:8080/ws/retrieve_project_statuses</a><br/>
+		<ul>Params required (Only GET request method accepted):
+			<li>project_id</li>
+		</ul>
+	</li>
+
+	<li>
+		<a href='http://localhost:8080/ws/retrieve_project_complaints'>http://localhost:8080/ws/retrieve_project_complaints</a><br/>
+		<ul>Params required (Only GET request method accepted):
+			<li>project_id</li>
+		</ul>
+	</li>
+
+	<li>
+		<a href='http://localhost:8080/ws/retrieve_project_workers'>http://localhost:8080/ws/retrieve_project_workers</a><br/>
+		<ul>Params required (Only GET request method accepted):
+			<li>project_id</li>
+		</ul>
+	</li>
+
+	<li>
+		<a href='http://localhost:8080/ws/update_worker_work_hours'>http://localhost:8080/ws/update_worker_work_hours</a><br/>
+		<ul>Params required (Only GET request method accepted):
+			<li>employee_id</li>
+			<li>date (YYYY-mm-dd format)</li>
+			<li>start_time (HH:MM format)</li>
+			<li>end_time (HH:MM format)</li>
+		</ul>
+	</li>
+</ul>
 </ul>

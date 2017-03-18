@@ -1,60 +1,89 @@
 #!/usr/bin/python
 
 from lib.database import *
-from datetime import datetime
+import datetime
+complaint_statuses = ['Unresolved','Reviewed','Resolved']
 
-project_status = ['unresolved','reviewed','resolved']
+def create_company(name, address, postal_code):
+	# ==== start of input validation & sanitization ====
+	if not (name and address and postal_code):
+		return None
 
-def list_companies():
-    return session.query(Company).all()
+	name = "%s" % name
+	address = "%s" % address
+	postal_code = "%s" % postal_code
+	# ==== end of input validation & sanitization ====
 
-def add_company(name, address, postal_code):
-    company = Company(name="%s" % name, address="%s" % address, postal_code="%s" % postal_code)
-    session.add(company)
-    session.commit()
-    return company
+	company = Company(name=name, address=address, postal_code=postal_code)
+	session.add(company)
+	session.commit()
+	return company
 
 def add_project_complaint(project_id, complaint):
-    today = datetime.now().date()
-    complaint = Project.Project_Complaints(project_id="%d" % int(project_id), complaint="%s" % complaint, date_added=today, resolution_status = project_status[0])
-    session.add(complaint)
-    session.commit()
-    return complaint
+	# ==== start of input validation & sanitization ====
+	if not (project_id and complaint):
+		return None
 
-def review_project_complaint(complaint_id, action_taken):
-    complaint = session.query(Project.Project_Complaints).filter(Project.Project_Complaints.complaint_id=="%d" % int(complaint_id)).first()
-    if complaint:
-        complaint.action_taken = "%s" % action_taken
-        complaint.resolution_status = project_status[1]
-        complaint.date_reviewed = datetime.now().date()
-        session.commit()
-        return True
-    return False
+	try:
+		project_id = int(project_id)
+	except:
+		return None
+
+	complaint = "%s" % complaint
+
+	# ==== end of input validation & sanitization ====
+	project_complaint = Project_Complaint(project_id=project_id, complaint=complaint, date_added=datetime.datetime.now().date(), resolution_status=complaint_statuses[0])
+	session.add(project_complaint)
+	session.commit()
+	return project_complaint
+
+def retrieve_project_complaint_by_id(complaint_id):
+	# ==== start of input validation & sanitization ====
+	if not complaint_id:
+		return None
+
+	try:
+		complaint_id = int(complaint_id)
+	except:
+		return None
+	# ==== end of input validation & sanitization ====
+
+	return session.query(Project_Complaint).filter(Project_Complaint.complaint_id == complaint_id).first()
+
+
+def review_project_complaint(complaint_id, review):
+	# ==== start of input validation & sanitization ====
+	if not (complaint_id and review):
+		return None
+
+	complaint = retrieve_project_complaint_by_id(complaint_id)
+	if not complaint:
+		return None
+
+	review = "%s" % review
+	# ==== end of input validation & sanitization ====
+
+	if complaint.resolution_status == complaint_statuses[0]:
+		complaint.review = review
+		complaint.resolution_status = complaint_statuses[1]
+		complaint.date_reviewed = datetime.datetime.now().date()
+		session.commit()
+		return True
+	return False
 
 def resolve_project_complaint(complaint_id):
-    complaint = session.query(Project.Project_Complaints).filter(Project.Project_Complaints.complaint_id=="%d" % int(complaint_id)).first()
-    if complaint:
-        complaint.resolution_status = project_status[2]
-        complaint.date_resolved = datetime.now().date()
-        session.commit()
-        return True
-    return False
+	# ==== start of input validation & sanitization ====
+	if not complaint_id:
+		return None
 
-def list_complaint_resolution_recommendations(project_id):
-    project = session.query(Project).filter(Project.project_id=="%d" % int(project_id)).first()
-    recommendations = []
+	complaint = retrieve_project_complaint_by_id(complaint_id)
+	if not complaint:
+		return None
+	# ==== end of input validation & sanitization ====
 
-    similar_project_ids = []
-    for material in project.materials_qty:
-        projects = session.query(Project.Project_Materials).filter(Project.Project_Materials.material_id=="%d" % material.material_id).all()
-        for p in projects:
-            if p.project_id not in similar_project_ids:
-                similar_project_ids.append(p.project_id)
-
-    for pid in similar_project_ids:
-        similar_project = session.query(Project).filter(Project.project_id=="%d" % int(pid)).first()
-        for complaint in similar_project.complaints:
-            if complaint.resolution_status == project_status[2]:
-                recommendations.append(complaint.action_taken)
-
-    return json.dumps(recommendations)
+	if complaint_statuses.resolution_status == complaint_statuses[1]:
+		complaint.resolution_status = complaint_statuses[2]
+		complaint.date_resolved = datetime.datetime.now().date()
+		session.commit()
+		return True
+	return False

@@ -1,140 +1,255 @@
 #!/usr/bin/python
 
-import lib.common_infra as ci
 import lib.hr as hr
 import lib.crm as crm
-import lib.project as prj
+import lib.pm as pm
+import lib.ci as ci
+
 import json
-import sqlalchemy.ext.declarative as ext_dec
 import datetime
 
+job_titles = ['Project Manager','Site Manager','Worker']
+timeline_names = ['Supply Shipment','Product Manufacture','Installation']
+project_statuses = ['Supplies Ordered','Supplies Arrived','Manufacturing Product','Product Manufactured','Installing Product','Product Installed','Completed']
+complaint_statuses = ['Unresolved','Reviewed','Resolved']
 
-def populate_db():
-    users = []
-    users.append(ci.add_user(name='Alex', username='alex'.lower(), password='alex123', role='Project Manager'))
-    users.append(ci.add_user(name='Bobby', username='bobby'.lower(), password='bobby123', role='Site Manager'))
-    users.append(ci.add_user(name='Charles', username='charles'.lower(), password='charles123', role='Site Manager'))
+def login(username, password):
+	# Retrieve user details
+	retrieved_user = ci.user_login(username, password)
 
-    managers = []
-    managers.append(hr.add_employee(name='Alex', job_title='Project Manager', photo='', salary="5000"))
-    managers.append(hr.add_employee(name='Bobby', job_title='Site Manager', photo='', salary="3500"))
-    managers.append(hr.add_employee(name='Charles', job_title='Site Manager', photo='', salary="3500"))
+	# Ensure user exists
+	if not retrieved_user:
+		return None
 
-    workers = []
-    workers.append(hr.add_employee(name='David', job_title='Worker', photo='', salary="2000"))
-    workers.append(hr.add_employee(name='Eugene', job_title='Worker', photo='', salary="1900"))
-    workers.append(hr.add_employee(name='Fabian', job_title='Worker', photo='', salary="1800"))
-    workers.append(hr.add_employee(name='George', job_title='Worker', photo='', salary="1700"))
-    workers.append(hr.add_employee(name='Henry', job_title='Worker', photo='', salary="1600"))
-    workers.append(hr.add_employee(name='Ian', job_title='Worker', photo='', salary="1500"))
-    workers.append(hr.add_employee(name='Julian', job_title='Worker', photo='', salary="1400"))
-    workers.append(hr.add_employee(name='Kenny', job_title='Worker', photo='', salary="1300"))
-
-    companies = []
-    companies.append(crm.add_company(name='Singapore Airlines Limited', address='25 Airline Road, Airline House', postal_code='819829'))
-    companies.append(crm.add_company(name='Shimizu Corporation', address='8 Kallang Avenue, #05-01 Aperia Tower 1', postal_code='339509'))
-
-    materials = []
-    materials.append(prj.add_material(name='Fire Rated Glass', description='Fire rated glass rating of up to 4 hours.'))
-    materials.append(prj.add_material(name='X-Ray Resistant Glass', description='X-ray and radiation protective lead glass'))
-    materials.append(prj.add_material(name='Bullet Resistant Glass', description='Composite panel made up of layer of glass with interlayers of polymer and polycarbonate plates.'))
-
-    project_1 = prj.add_project(project_title='test', project_description='test',company=companies[0], poc_name='test',poc_contact='test', site_manager=users[1])
-    prj.add_project_materials_qty(project_1.project_id, materials[0], 10)
-    prj.add_project_materials_qty(project_1.project_id, materials[1], 20)
-    prj.add_project_materials_qty(project_1.project_id, materials[2], 30)
-    prj.add_project_worker(project_1.project_id, workers[0].employee_id)
-    prj.add_project_worker(project_1.project_id, workers[1].employee_id)
-    prj.add_project_worker(project_1.project_id, workers[2].employee_id)
-    prj.add_project_worker(project_1.project_id, workers[3].employee_id)
-
-    supply_shipment_start_date = datetime.datetime.strptime('2017-03-10', '%Y-%m-%d')
-    supply_shipment_end_date = datetime.datetime.strptime('2017-03-17', '%Y-%m-%d')
-    manufacture_start_date = datetime.datetime.strptime('2017-03-18', '%Y-%m-%d')
-    manufacture_end_date = datetime.datetime.strptime('2017-03-20', '%Y-%m-%d')
-    installation_start_date = datetime.datetime.strptime('2017-03-21', '%Y-%m-%d')
-    installation_end_date = datetime.datetime.strptime('2017-03-31', '%Y-%m-%d')
-    prj.add_project_timeline(project_1.project_id, "Supply Shipment", supply_shipment_start_date, supply_shipment_end_date)
-    prj.add_project_timeline(project_1.project_id, "Product Manufacture", manufacture_start_date, manufacture_end_date)
-    prj.add_project_timeline(project_1.project_id, "Installation", installation_start_date, installation_end_date)
-    complaint_1 = crm.add_project_complaint(project_1.project_id, "The door handle came off!")
-    crm.review_project_complaint(complaint_1.complaint_id, "Applied reinforced steel lining to with PVC glue.")
-    crm.resolve_project_complaint(complaint_1.complaint_id)
-
-    complaint_2 = crm.add_project_complaint(project_1.project_id, "The door handle came off again...")
-
-    today = datetime.datetime.now().date()
-    hr.update_worker_work_hours(workers[0].employee_id, today, 16)
-    hr.update_worker_work_hours(workers[1].employee_id, today, 16)
-    hr.update_worker_work_hours(workers[2].employee_id, today, 18)
-    hr.update_worker_work_hours(workers[3].employee_id, today, 18)
-    hr.update_worker_work_hours(workers[0].employee_id, today, 5)
-
-def list_users():
-    return ci.list_users()
-
-def user_login(username, password):
-    return ci.user_login(username=("%s" % username).lower(), password="%s" % password)
-
-def list_employees():
-    return hr.list_employees()
-
-def list_companies():
-    return crm.list_companies()
-
-def list_projects():
-    return prj.list_projects()
+	# Specify return fields
+	retrieved_user = json.loads("%s" % retrieved_user)
+	user = {}
+	user['user_id'] = retrieved_user.user_id
+	user['name'] = retrieved_user.name
+	user['photo'] = retrieved_user.employee.photo
+	user['job_title'] = retrieved_user.employee.job_title
+	return json.dumps(user)
 
 def list_site_manager_projects(user_id):
-    user = ci.get_user_by_id("%d" % int(user_id))
-    if user and "site manager".lower() == ("%s" % user.role).lower():
-        return prj.list_site_manager_projects(user.user_id)
-    return None
+	# Retrieve site manager projects
+	retrieved_projects = pm.retrieve_site_manager_projects(user_id)
 
-def list_workers_without_project(start_date_str, end_date_str):
-    def clash(start_date_1, end_date_1, start_date_2, end_date_2):
-        duration_1 = end_date_1 - start_date_1
-        period_1 = []
-        for i in range(duration_1.days + 1):
-            period_1.append(start_date_1 + datetime.timedelta(days=i))
+	# Return nothing if no projects
+	if not retrieved_projects:
+	    return None
 
-        duration_2 = end_date_2 - start_date_2
-        period_2 = []
-        for i in range(duration_2.days + 1):
-            period_2.append(start_date_2 + datetime.timedelta(days=i))
+	# Specify return fields
+	retrieved_projects = json.loads("%s" % retrieved_projects)
+	projects = []
+	for retrieved_project in retrieved_projects:
 
-        return True if len(set(period_1) & set(period_2)) != 0 else False
+	    installation_start_date, installation_end_date = get_timeline_dates(retrieved_project.get('timelines'), 'installation')
+	    if not (installation_start_date and installation_end_date):
+	        continue
 
-    start_date = datetime.datetime.strptime(start_date_str, '%Y-%m-%d').date()
-    end_date = datetime.datetime.strptime(end_date_str, '%Y-%m-%d').date()
-    extracted_projects = []
-    projects = prj.list_projects()
-    for project in projects:
-        for timeline in project.timelines:
-            if timeline.name.lower() == "installation".lower() and clash(start_date, end_date, timeline.start_date, timeline.end_date):
-                extracted_projects.append(project)
-                break
+	    latest_status, latest_status_date = get_latest_status(retrieved_project.get('statuses'))
+	    if not (latest_status and latest_status_date):
+	        continue
 
-    workers_with_project = []
-    for project in extracted_projects:
-        for worker in project.workers:
-            workers_with_project.append(worker.worker_id)
+	    project = {}
+	    project['project_id'] = retrieved_project.get('project_id')
+	    project['project_title'] = retrieved_project.get('project_title')
+	    project['company_name'] = retrieved_project.get('company').get('name')
+	    project['installation_start_date'] = installation_start_date
+	    project['installation_end_date'] = installation_end_date
+	    project['status'] = latest_status
+	    projects.append(project)
 
-    workers_without_project = []
-    employees_workers = hr.list_workers()
-    for worker in employees_workers:
-        if worker.employee_id not in workers_with_project:
-            workers_without_project.append(worker)
+	return json.dumps(projects)
 
-    return None if len(workers_without_project) == 0 else workers_without_project
+def retrieve_project_details(project_id):
+	# Retrieve project
+	retrieved_project = pm.retrieve_project_by_id(project_id)
 
-def add_project_complaint(project_id, complaint):
-    project = prj.get_project_by_id(project_id="%d" % int(project_id))
-    return crm.add_project_complaint(project_id="%d" % int(project_id), complaint="%s" % complaint) if project else None
+	# Return nothing if project does not exist
+	if not retrieved_project:
+		return None
 
-def review_project_complaint(complaint_id, action_taken):
-    return crm.review_project_complaint(complaint_id, action_taken)
+	retrieved_project = json.loads("%s" % retrieved_project)
+	project_materials = []
+	for retrieved_material in retrieved_project.get('materials_qty'):
+		material = {
+			'material': retrieved_material.get('material_name'),
+			'qty': retrieved_material.get('quantity')
+			}
+		project_materials.append(material)
 
-def list_complaint_resolution_recommendations(project_id):
-    project = prj.get_project_by_id(project_id="%d" % int(project_id))
-    return crm.list_complaint_resolution_recommendations("%d" % int(project_id)) if project else None
+	project_timelines = []
+	for retrieved_timeline in retrieved_project.get('timelines'):
+		timeline_name = retrieved_timeline.get('name')
+		start_date, end_date = get_timeline_dates(retrieved_project.get('timelines'), timeline_name)
+		timeline = {
+			'timeline': timeline_name,
+			'start_date': start_date,
+			'end_date': end_date
+		}
+
+		project_timelines.append(timeline)
+
+	project = {}
+	project['project_id'] = retrieved_project.get('project_id')
+	project['project_title'] = retrieved_project.get('project_title')
+	project['project_description'] = retrieved_project.get('project_description')
+	project['company_name'] = retrieved_project.get('company').get('name')
+	project['poc_name'] = retrieved_project.get('poc_name')
+	project['poc_contact'] = retrieved_project.get('poc_contact')
+	project['project_materials'] = project_materials
+	project['project_timelines'] = project_timelines
+	return json.dumps(project)
+
+def retrieve_project_statuses(project_id):
+	# Retrieve project
+	retrieved_project = pm.retrieve_project_by_id(project_id)
+
+	# Return nothing if project does not exist
+	if not retrieved_project:
+		return None
+
+	retrieved_project = json.loads("%s" % retrieved_project)
+	project_statuses = {}
+	latest_status, latest_status_date = get_latest_status(retrieved_project.get('statuses'))
+	current_status = {
+		'status': latest_status,
+		'date_added': latest_status_date
+	}
+
+	past_statuses = []
+	for retrieved_status in retrieved_project.get('statuses'):
+		if retrieved_status.get('status') != latest_status:
+			status = {
+				'status': retrieved_status.get('status'),
+				'date_added': retrieved_status.get('date_added'),
+				'comments': retrieved_status.get('comments')
+			}
+			past_statuses.append(status)
+		else:
+			current_status['comments'] = retrieved_status.get('comments')
+
+
+	project_statuses['current_status'] = current_status
+	project_statuses['past_statuses'] = past_statuses
+	return json.dumps(project_statuses)
+
+def retrieve_project_complaints(project_id):
+	# Retrieve project
+	retrieved_project = pm.retrieve_project_by_id(project_id)
+
+	# Return nothing if project does not exist
+	if not retrieved_project:
+		return None
+
+	retrieved_project = json.loads("%s" % retrieved_project)
+	unresolved = []
+	reviewed = []
+	resolved = []
+
+	for retrieved_complaint in retrieved_project.get('complaints'):
+		complaint = {
+			'complaint_id': retrieved_complaint.get('complaint_id'),
+			'complaint': retrieved_complaint.get('complaint'),
+			'date_added': retrieved_complaint.get('date_added')
+		}
+
+		resolution_status = retrieved_complaint.get('resolution_status')
+		if resolution_status != complaint_statuses[0]:
+			complaint['review'] = retrieved_complaint.get('review')
+			complaint['date_reviewed'] = retrieved_complaint.get('date_reviewed')
+
+		if resolution_status == complaint_statuses[2]:
+			complaint['date_resolved'] = retrieved_complaint.get('date_resolved')
+			resolved.append(complaint)
+		elif resolution_status == complaint_statuses[1]:
+			reviewed.append(complaint)
+		else:
+			unresolved.append(complaint)
+
+	complaints = {}
+	complaints['unresolved'] = unresolved
+	complaints['reviewed'] = reviewed
+	complaints['resolved'] = resolved
+
+	return json.dumps(complaints)
+
+def retrieve_project_workers(project_id):
+	# Retrieve project
+	retrieved_project = pm.retrieve_project_by_id(project_id)
+
+	# Return nothing if project does not exist
+	if not retrieved_project:
+		return None
+
+	retrieved_project = json.loads("%s" % retrieved_project)
+	workers = []
+
+	for retrieved_worker in retrieved_project.get('workers'):
+		worker = {}
+		worker['employee_id'] = retrieved_worker.get('employee_id')
+		worker['name'] = retrieved_worker.get('name')
+		worker['photo'] = retrieved_worker.get('photo')
+		worker['contact'] = retrieved_worker.get('contact')
+		worker['emergency_contact_name'] = retrieved_worker.get('emergency_contact_name')
+		worker['emergency_contact_contact'] = retrieved_worker.get('emergency_contact_contact')
+
+		workers.append(worker)
+	return json.dumps(workers)
+
+def submit_project_update(project_id, comments, photo_locations):
+	if not (project_id and comments):
+		return False
+	return False
+
+def submit_project_complaint_review(complaint_id, review):
+	if not (complaint_id and review):
+		return False
+	return False
+
+def update_worker_work_hours(employee_id, date, start_time, end_time):
+	return hr.update_worker_work_hours(employee_id, date, start_time, end_time)
+
+#===============================================================================
+def get_timeline_dates(timelines, timeline_name):
+	# Identify installation timeline
+	extracted_timeline = None
+	for timeline in timelines:
+		if (timeline.get('name')).lower() == timeline_name.lower():
+			extracted_timeline = timeline
+			break
+
+	# Ensure installation timeline exists
+	if not extracted_timeline:
+		return None, None
+
+	# If installation has started, use actual start date, otherwise use projected start date
+	start_date = extracted_timeline.get('actual_start_date') if extracted_timeline.get('actual_start_date') else extracted_timeline.get('projected_start_date')
+
+	# If installation has ended, use actual end date, otherwise use projected end date
+	end_date = extracted_timeline.get('actual_end_date') if extracted_timeline.get('actual_end_date') else extracted_timeline.get('projected_end_date')
+	return start_date, end_date
+
+def get_latest_status(project_statuses):
+	# Retrieve the latest status of project
+	date_format = '%Y-%m-%d'
+	statuses = {}
+	for status in project_statuses:
+		statuses[status.get('date_added')] = status.get('status')
+	statuses_dates = statuses.keys()
+
+	# Ensure the project has a status
+	if len(statuses_dates) <= 0:
+		return None, None
+
+	# Assign first status as latest status
+	latest_status_date = statuses_dates[0]
+
+	# If any status appears later, use it as latest status
+	for i in range(1, len(statuses_dates)):
+		if datetime.datetime.strptime(statuses_dates[i], date_format) > datetime.datetime.strptime(latest_status_date, date_format):
+			latest_status_date = statuses_dates[i]
+
+	latest_status = statuses.get(latest_status_date)
+	return latest_status, latest_status_date

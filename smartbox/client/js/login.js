@@ -22,8 +22,7 @@ Template.login.events({
     const password = e.target.password.value;
     HTTP.call("POST", SERVER+"login",{data: {username:username,password:password}},
     (error, result) => {
-      console.log(result);
-      const res = result.data;
+      const res = result.content;
       if (res) {
         Session.set("user", JSON.parse(res));
         FlowRouter.go("/projects");

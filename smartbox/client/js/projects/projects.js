@@ -5,12 +5,16 @@ import { HTTP } from 'meteor/http';
 
 Template.projects.onCreated(function() {
 
-  HTTP.call("GET", SERVER+"list_projects",
+  Session.setDefault("projects",null);
+  Session.setDefault("project",null);
+  Session.setDefault("workers",null);
+  Session.setDefault("statuses",null);
+  Session.setDefault("complaints",null);
+
+  const user = Session.get("user");
+  HTTP.call("GET", SERVER+"list_site_manager_projects", {params:{site_manager_id:user.user_id}},
   (error, result) => {
-    if (!error) {
       Session.set("projects", JSON.parse(result.content));
-      console.log(JSON.parse(result.content));
-    }
   });
 
 });

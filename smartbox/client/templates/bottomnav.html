@@ -1,19 +1,19 @@
 <Template name="bottomnav">
 
   <nav class="bar bar-tab">
-    <a class="tab-item {{isActive 'projects'}}" href="/projects" >
+    <a class="tab-item {{isActive 'projects'}}" href="/projects" data-ignore="push">
       <span class="icon icon-list"></span>
       <span class="tab-label">Projects</span>
     </a>
-    <a class="tab-item {{isActive 'projectDetails'}}" href="/projectDetails/{{pid}}">
+    <a class="tab-item {{isActive 'projectDetails'}}" href="/projectDetails/{{pid}}" data-ignore="push">
       <span class="icon icon-info"></span>
       <span class="tab-label">Details</span>
     </a>
-    <a class="tab-item {{isActive 'status'}}" href="/status">
+    <a class="tab-item {{isActive 'status'}}" href="/status" data-ignore="push">
       <span class="icon icon-more-vertical"></span>
       <span class="tab-label">Status</span>
     </a>
-    <a class="tab-item {{isActive 'workers'}}" href="/workers">
+    <a class="tab-item {{isActive 'workers'}}" href="/workers" data-ignore="push">
       <span class="icon icon-person"></span>
       <span class="tab-label">Workers</span>
     </a>

@@ -31,8 +31,8 @@ def send_images(path):
 
 @app.route('/ws/login', methods=['POST'])
 def user_login():
-	username = flask.request.form.get('username')
-	password = flask.request.form.get('password')
+	username = flask.request.json.get('username')
+	password = flask.request.json.get('password')
 	results = queries.login(username, password)
 	return results if results else ""
 
@@ -104,6 +104,7 @@ def add_review_photo():
 	results = queries.add_review_photo(complaint_id, photo_file_path)
 	return "OK" if results else ""
 
+@app.route('/ws/upload_file', methods=['POST'])
 def upload_file():
 	if flask.request.method == 'POST':
 		# check if the post request has the file part

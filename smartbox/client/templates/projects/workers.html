@@ -4,7 +4,7 @@
     <h4 class="stitle pull-left">
       Workers
     </h4>
-    <a href="/recordWorkHours" class="statusLink pull-right">
+    <a href="/recordWorkHours" class="statusLink pull-right" data-ignore="push">
       <button class="btn btn-positive btn-block">
         Record Work Hours
       </button>
@@ -16,12 +16,20 @@
       <ul class="table-view">
         {{#each workers}}
         <li class="table-view-cell">
-          <strong>{{name}}</strong>
-          <p>
-            {{job_title}}
-            {{salary}}
-          </p>
+          <img  src="{{photo}}" alt="photo" class="photoImg pull-left" />
+          <div class="boxArea pull-left">
+            <strong>{{name}}</strong>
+            <strong>{{contact}}</strong>
+            <br  />
+            <small>
+              {{emergency_contact_name}}
+              {{emergency_contact_contact}}
+            </small>
+          </div>
+          <div class="clear">
+          </div>
         </li>
+
         {{/each}}
       </ul>
     </div>

@@ -1,21 +1,3 @@
-<template name="userProfile">
-
-  <div class="profileArea">
-    <div class="profileBox">
-      <span class="profileName">
-        {{name}}
-      </span>
-      <br  />
-      <span class="profileTitle">
-        {{title}}
-      </span>
-    </div>
-    <img class="profileImage pull-right" src="" alt="static photo here" />
-    <div class="clear"></div>
-  </div>
-
-</template>
-
 <template name="projects">
 
   {{>userProfile}}
@@ -27,10 +9,10 @@
       <ul class="table-view">
         {{#each projects}}
         <li class="table-view-cell">
-          <a href="/projectDetails/{{project_id}}" class="push-right">
-            <strong>{{company.name}}</strong>
+          <a href="/projectDetails/{{project_id}}" class="push-right" data-ignore="push">
+            <strong>{{project_title}}</strong>
             <p>
-              {{company.address}}
+              {{company_name}}
             </p>
           </a>
         </li>

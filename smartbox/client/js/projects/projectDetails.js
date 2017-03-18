@@ -5,7 +5,11 @@ import { HTTP } from 'meteor/http';
 
 Template.projectDetails.onCreated(function() {
   const id = parseInt(FlowRouter.getParam("id"));
-  Session.set("project",_.findWhere(Session.get("projects"), {project_id: id}));
+  HTTP.call("GET", SERVER+"retrieve_project_details", {params:{project_id:id}},
+  (error, result) => {
+    Session.set("project", JSON.parse(result.content));
+  });
+
 });
 
 Template.projectDetails.helpers({
@@ -19,7 +23,7 @@ Template.projectDetails.helpers({
     return Session.get("project").project_description;
   },
   company:() => {
-    return Session.get("project").company.name;
+    return Session.get("project").company_name;
   },
   pocName:() => {
     return Session.get("project").poc_name;

@@ -12,12 +12,16 @@ Template.userProfile.helpers({
 
   name:()=>
   {
-    return Session.get("user").username;
+    return Session.get("user").name;
   }
   ,
   title:()=>
   {
-    return Session.get("user").role;
-  }
+    return Session.get("user").job_title;
+  },
+  photo:()=>
+  {
+    return Session.get("user").photo;
+  },
 
 });

@@ -5,7 +5,7 @@ import { HTTP } from 'meteor/http';
 
 Template.projects.onCreated(function() {
 
-  HTTP.call("GET", "http://localhost:8080/ws/list_projects",
+  HTTP.call("GET", SERVER+"list_projects",
   (error, result) => {
     if (!error) {
       Session.set("projects", JSON.parse(result.content));

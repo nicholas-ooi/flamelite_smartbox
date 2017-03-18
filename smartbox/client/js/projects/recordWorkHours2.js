@@ -13,6 +13,15 @@ Template.recordWorkHours2.events({
   "submit #recordWorkHours":(e)=>
   {
     e.preventDefault();
+
+    HTTP.call("POST", SERVER+"update_worker_work_hours",
+    (error, result) => {
+      if (!error) {
+
+
+      }
+    });
+
     FlowRouter.go("/workers");
   }
 });

@@ -3,6 +3,7 @@
 import lib.ci as ci
 from lib.database import *
 import datetime
+import os
 
 project_statuses = ['Supplies Ordered','Supplies Arrived','Manufacturing Product','Product Manufactured','Installing Product','Product Installed','Completed']
 complaint_statuses = ['Unresolved','Reviewed','Resolved']
@@ -121,8 +122,13 @@ def update_project_status(project_id, comments, status, date_added):
 		return None
 	# ==== end of input validation & sanitization ====
 
-	project_status = Project_Status(project_id=project_id, comments=comments, status=status, date_added=date_added)
-	session.add(project_status)
+	project_status = session.query(Project_Status).filter(Project_Status.project_id == project_id, Project_Status.status == status).first()
+	if not project_status:
+		project_status = Project_Status(project_id=project_id, comments=comments, status=status, date_added=date_added)
+		session.add(project_status)
+	else:
+		project_status.comments = comments
+		project_status.date_added = date_added
 	session.commit()
 	return project_status
 
@@ -154,3 +160,26 @@ def retrieve_project_by_id(project_id):
 	# ==== end of input validation & sanitization ====
 
 	return session.query(Project).filter(Project.project_id == project_id).first()
+
+def add_project_status_photo(status_id, photo_file_path):
+	# ==== start of input validation & sanitization ====
+	if not (status_id and photo_file_path):
+		return None
+
+	try:
+		status_id = int(status_id)
+	except:
+		return None
+
+	if not os.path.exists(os.path.join(os.getcwd(), photo_file_path)):
+		return None
+
+	status = session.query(Project_Status).filter(Project_Status.status_id == status_id).first()
+	if not status:
+		return None
+	# ==== end of input validation & sanitization ====
+
+	status_photo = Project_Status_Photo(photo_file_path=photo_file_path, status_id=status_id)
+	session.add(status_photo)
+	session.commit()
+	return status_photo

@@ -2,6 +2,7 @@
 
 from lib.database import *
 import datetime
+import os
 complaint_statuses = ['Unresolved','Reviewed','Resolved']
 
 def create_company(name, address, postal_code):
@@ -63,6 +64,7 @@ def review_project_complaint(complaint_id, review):
 	review = "%s" % review
 	# ==== end of input validation & sanitization ====
 
+	print "error here?"
 	if complaint.resolution_status == complaint_statuses[0]:
 		complaint.review = review
 		complaint.resolution_status = complaint_statuses[1]
@@ -70,6 +72,29 @@ def review_project_complaint(complaint_id, review):
 		session.commit()
 		return True
 	return False
+
+def add_review_photo(complaint_id, photo_file_path):
+	# ==== start of input validation & sanitization ====
+	if not (complaint_id and photo_file_path):
+		return None
+
+	try:
+		complaint_id = int(complaint_id)
+	except:
+		return None
+
+	if not os.path.exists(os.path.join(os.getcwd(), photo_file_path)):
+		return None
+
+	complaint = retrieve_project_complaint_by_id(complaint_id)
+	if not complaint:
+		return None
+	# ==== end of input validation & sanitization ====
+
+	review_photo = Review_Photo(photo_file_path=photo_file_path, complaint_id=complaint_id)
+	session.add(review_photo)
+	session.commit()
+	return review_photo
 
 def resolve_project_complaint(complaint_id):
 	# ==== start of input validation & sanitization ====

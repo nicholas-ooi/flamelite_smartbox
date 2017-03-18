@@ -65,12 +65,12 @@ def populate_db():
 	pm.assign_project_workers(project_1.project_id, workers[3])
 
 	# Create project timelines
-	supply_shipment_start_date = datetime.datetime.strptime('2017-03-10', '%Y-%m-%d')
-	supply_shipment_end_date = datetime.datetime.strptime('2017-03-17', '%Y-%m-%d')
-	manufacture_start_date = datetime.datetime.strptime('2017-03-18', '%Y-%m-%d')
-	manufacture_end_date = datetime.datetime.strptime('2017-03-20', '%Y-%m-%d')
-	installation_start_date = datetime.datetime.strptime('2017-03-21', '%Y-%m-%d')
-	installation_end_date = datetime.datetime.strptime('2017-03-31', '%Y-%m-%d')
+	supply_shipment_start_date = datetime.datetime.strptime('2017-03-10', '%Y-%m-%d').date()
+	supply_shipment_end_date = datetime.datetime.strptime('2017-03-17', '%Y-%m-%d').date()
+	manufacture_start_date = datetime.datetime.strptime('2017-03-18', '%Y-%m-%d').date()
+	manufacture_end_date = datetime.datetime.strptime('2017-03-20', '%Y-%m-%d').date()
+	installation_start_date = datetime.datetime.strptime('2017-03-21', '%Y-%m-%d').date()
+	installation_end_date = datetime.datetime.strptime('2017-03-31', '%Y-%m-%d').date()
 	pm.add_project_timeline(project_1.project_id, timeline_names[0], supply_shipment_start_date, supply_shipment_end_date)
 	pm.add_project_timeline(project_1.project_id, timeline_names[1], manufacture_start_date, manufacture_end_date)
 	pm.add_project_timeline(project_1.project_id, timeline_names[2], installation_start_date, installation_end_date)
@@ -81,7 +81,7 @@ def populate_db():
 
 	# Create project complaints
 	complaint_1 = crm.add_project_complaint(project_1.project_id, "The door handle came off!")
-	crm.review_project_complaint(complaint_1.complaint_id, "Requires application of PVC glue to reinforce steel lining with handle.")
+	#crm.review_project_complaint(complaint_1.complaint_id, "Requires application of PVC glue to reinforce steel lining with handle.")
 
 	complaint_2 = crm.add_project_complaint(project_1.project_id, "The glass shatered suddenly!")
 	return None

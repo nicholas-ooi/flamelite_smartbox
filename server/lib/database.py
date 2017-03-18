@@ -215,6 +215,7 @@ class Project_Status(Base):
 	status_id = sql.Column(sql.Integer, primary_key=True)
 	project_id = sql.Column(sql.ForeignKey('projects.project_id'))
 	comments = sql.Column(sql.String)
+	photos = orm.relationship('Project_Status_Photo')
 	status = sql.Column(sql.String)
 	date_added = sql.Column(sql.Date)
 
@@ -223,10 +224,25 @@ class Project_Status(Base):
 			'status_id': self.status_id,
 			'project_id': self.project_id,
 			'comments': self.comments,
+			'photos': json.loads("%s" % self.photos),
 			'status': self.status,
 			'date_added': "%s" % self.date_added.strftime(date_format)
 		}
 		return json.dumps(data)
+
+class Project_Status_Photo(Base):
+	__tablename__ = "project_status_photos"
+	photo_id = sql.Column(sql.Integer, primary_key=True)
+	photo_file_path = sql.Column(sql.String)
+	status_id = sql.Column(sql.ForeignKey('project_statuses.status_id'))
+
+	def __repr__(self):
+		data = {
+			'photo_id': self.photo_id,
+			'photo_file_path': self.photo_file_path
+		}
+		return json.dumps(data)
+
 
 class Project_Complaint(Base):
 	__tablename__ = "project_complaints"
@@ -236,6 +252,7 @@ class Project_Complaint(Base):
 	date_added = sql.Column(sql.Date)
 	resolution_status = sql.Column(sql.String) # unsolved, reviewed, resolved
 	review = sql.Column(sql.String)
+	review_photos = orm.relationship('Review_Photo')
 	date_reviewed = sql.Column(sql.Date)
 	date_resolved = sql.Column(sql.Date)
 
@@ -247,8 +264,22 @@ class Project_Complaint(Base):
 			'date_added': "%s" % self.date_added.strftime(date_format),
 			'resolution_status': "%s" % self.resolution_status,
 			'review': self.review,
+			'review_photos': json.loads("%s" % self.review_photos),
 			'date_reviewed': "%s" % self.date_reviewed.strftime(date_format) if self.date_reviewed else None,
 			'date_resolved': "%s" % self.date_resolved.strftime(date_format) if self.date_resolved else None
+		}
+		return json.dumps(data)
+
+class Review_Photo(Base):
+	__tablename__ = "review_photos"
+	photo_id = sql.Column(sql.Integer, primary_key=True)
+	photo_file_path = sql.Column(sql.String)
+	complaint_id = sql.Column(sql.ForeignKey('project_complaints.complaint_id'))
+
+	def __repr__(self):
+		data = {
+			'photo_id': self.photo_id,
+			'photo_file_path': self.photo_file_path
 		}
 		return json.dumps(data)
 

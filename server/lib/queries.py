@@ -8,6 +8,8 @@ import lib.ci as ci
 import json
 import datetime
 
+server_ip = 'localhost'
+server_port = 8080
 job_titles = ['Project Manager','Site Manager','Worker']
 timeline_names = ['Supply Shipment','Product Manufacture','Installation']
 project_statuses = ['Supplies Ordered','Supplies Arrived','Manufacturing Product','Product Manufactured','Installing Product','Product Installed','Completed']
@@ -24,10 +26,10 @@ def login(username, password):
 	# Specify return fields
 	retrieved_user = json.loads("%s" % retrieved_user)
 	user = {}
-	user['user_id'] = retrieved_user.user_id
-	user['name'] = retrieved_user.name
-	user['photo'] = retrieved_user.employee.photo
-	user['job_title'] = retrieved_user.employee.job_title
+	user['user_id'] = retrieved_user.get('user_id')
+	user['name'] = retrieved_user.get('name')
+	user['photo'] = retrieved_user.get('photo')
+	user['job_title'] = retrieved_user.get('job_title')
 	return json.dumps(user)
 
 def list_site_manager_projects(user_id):
@@ -120,16 +122,21 @@ def retrieve_project_statuses(project_id):
 
 	past_statuses = []
 	for retrieved_status in retrieved_project.get('statuses'):
+		photos = []
+		for retrieved_status_photo in retrieved_status.get('photos'):
+			photos.append("http://%s:%s/%s" % (server_ip, server_port, retrieved_status_photo.get('photo_file_path')))
+
 		if retrieved_status.get('status') != latest_status:
 			status = {
 				'status': retrieved_status.get('status'),
 				'date_added': retrieved_status.get('date_added'),
-				'comments': retrieved_status.get('comments')
+				'comments': retrieved_status.get('comments'),
+				'photos': photos
 			}
 			past_statuses.append(status)
 		else:
 			current_status['comments'] = retrieved_status.get('comments')
-
+			current_status['photos'] = photos
 
 	project_statuses['current_status'] = current_status
 	project_statuses['past_statuses'] = past_statuses
@@ -157,7 +164,12 @@ def retrieve_project_complaints(project_id):
 
 		resolution_status = retrieved_complaint.get('resolution_status')
 		if resolution_status != complaint_statuses[0]:
+			review_photos = []
+			for retrieved_review_photo in retrieved_complaint.get('review_photos'):
+				review_photos.append("http://%s:%s/%s" % (server_ip, server_port, retrieved_review_photo.get('photo_file_path')))
+
 			complaint['review'] = retrieved_complaint.get('review')
+			complaint['review_photos'] = review_photos
 			complaint['date_reviewed'] = retrieved_complaint.get('date_reviewed')
 
 		if resolution_status == complaint_statuses[2]:
@@ -198,15 +210,25 @@ def retrieve_project_workers(project_id):
 		workers.append(worker)
 	return json.dumps(workers)
 
-def submit_project_update(project_id, comments, photo_locations):
-	if not (project_id and comments):
-		return False
-	return False
+def submit_project_installed_update(project_id, comments):
+	project_status = pm.update_project_status(project_id, comments, project_statuses[5], datetime.datetime.now().date())
+	if not project_status:
+		return None
+
+	project_status = json.loads("%s" % project_status)
+	return "%s" % project_status.get('status_id')
+
+def add_status_photo(status_id, photo_file_path):
+	status_photo = pm.add_project_status_photo(status_id, photo_file_path)
+	return True if status_photo else False
 
 def submit_project_complaint_review(complaint_id, review):
-	if not (complaint_id and review):
-		return False
-	return False
+	review_complaint_results = crm.review_project_complaint(complaint_id, review)
+	return True if review_complaint_results else False
+
+def add_review_photo(complaint_id, photo_file_path):
+	review_photo = crm.add_review_photo(complaint_id, photo_file_path)
+	return True if review_photo else False
 
 def update_worker_work_hours(employee_id, date, start_time, end_time):
 	return hr.update_worker_work_hours(employee_id, date, start_time, end_time)

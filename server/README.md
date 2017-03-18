@@ -27,55 +27,47 @@ Assuming you kept the server_ip as localhost and server_port as 8080, here are s
 <ul>
 	<li>
 		<a href='http://localhost:8080/ws/login'>http://localhost:8080/ws/login</a><br/>
-		<ul>Params required (Only POST request method accepted):
-			<li>username</li>
-			<li>password</li>
-		</ul>
+		Params required (Only POST request method accepted):
+		<li>username</li>
+		<li>password</li>
 	</li>
 
 	<li>
 		<a href='http://localhost:8080/ws/list_site_manager_projects'>http://localhost:8080/ws/list_site_manager_projects</a><br/>
-		<ul>Params required (Only GET request method accepted):
-			<li>site_manager_id (use the user_id, not the employee_id)</li>
-		</ul>
+		Params required (Only GET request method accepted):
+		<li>site_manager_id (use the user_id, not the employee_id)</li>
 	</li>
 
 	<li>
 		<a href='http://localhost:8080/ws/retrieve_project_details'>http://localhost:8080/ws/retrieve_project_details</a><br/>
-		<ul>Params required (Only GET request method accepted):
-			<li>project_id</li>
-		</ul>
+		Params required (Only GET request method accepted):
+		<li>project_id</li>
 	</li>
 
 	<li>
 		<a href='http://localhost:8080/ws/retrieve_project_statuses'>http://localhost:8080/ws/retrieve_project_statuses</a><br/>
-		<ul>Params required (Only GET request method accepted):
-			<li>project_id</li>
-		</ul>
+		Params required (Only GET request method accepted):
+		<li>project_id</li>
 	</li>
 
 	<li>
 		<a href='http://localhost:8080/ws/retrieve_project_complaints'>http://localhost:8080/ws/retrieve_project_complaints</a><br/>
-		<ul>Params required (Only GET request method accepted):
-			<li>project_id</li>
-		</ul>
+		Params required (Only GET request method accepted):
+		<li>project_id</li>
 	</li>
 
 	<li>
 		<a href='http://localhost:8080/ws/retrieve_project_workers'>http://localhost:8080/ws/retrieve_project_workers</a><br/>
-		<ul>Params required (Only GET request method accepted):
-			<li>project_id</li>
-		</ul>
+		Params required (Only GET request method accepted):
+		<li>project_id</li>
 	</li>
 
 	<li>
 		<a href='http://localhost:8080/ws/update_worker_work_hours'>http://localhost:8080/ws/update_worker_work_hours</a><br/>
-		<ul>Params required (Only GET request method accepted):
-			<li>employee_id</li>
-			<li>date (YYYY-mm-dd format)</li>
-			<li>start_time (HH:MM format)</li>
-			<li>end_time (HH:MM format)</li>
-		</ul>
+		Params required (Only GET request method accepted):
+		<li>employee_id</li>
+		<li>date (YYYY-mm-dd format)</li>
+		<li>start_time (HH:MM format)</li>
+		<li>end_time (HH:MM format)</li>
 	</li>
-</ul>
 </ul>

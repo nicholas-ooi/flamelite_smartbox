@@ -12,7 +12,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 # globals
-server_ip = 'localhost'
+server_ip = '0.0.0.0'
 server_port = 8080
 app = flask.Flask(__name__)
 app.secret_key = os.urandom(24)

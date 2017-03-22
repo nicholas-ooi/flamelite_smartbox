@@ -8,7 +8,7 @@ import lib.queries as queries
 import lib.populate_db as populate_db
 import hashlib
 from PIL import Image
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
 # globals

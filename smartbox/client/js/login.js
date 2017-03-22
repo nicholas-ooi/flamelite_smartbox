@@ -20,7 +20,7 @@ Template.login.events({
     e.preventDefault();
     const username = e.target.username.value;
     const password = e.target.password.value;
-    HTTP.call("POST", SERVER+"login",{data: {username:username,password:password}},
+    HTTP.call("POST", SERVER+"login", {data: {'username':username,'password':password}},
     (error, result) => {
       const res = result.content;
       if (res) {

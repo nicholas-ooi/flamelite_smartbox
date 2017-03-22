@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 
 Template.users.onCreated(function() {
-  HTTP.call("GET", "http://localhost:8080/ws/list_users",
+  HTTP.call("GET", SERVER+"list_users",
   (error, result) => {
     if (!error) {
       Session.set("users", JSON.parse(result.content));

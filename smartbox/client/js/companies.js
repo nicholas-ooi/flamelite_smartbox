@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 
 Template.companies.onCreated(function() {
-  HTTP.call("GET", "http://localhost:8080/ws/list_companies",
+  HTTP.call("GET", SERVER+"list_companies",
   (error, result) => {
     if (!error) {
       Session.set("companies", JSON.parse(result.content));

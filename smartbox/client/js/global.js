@@ -1,1 +1,1 @@
-SERVER = "http://localhost:8080/ws/";
+SERVER = "http://172.25.103.77:8080/ws/";

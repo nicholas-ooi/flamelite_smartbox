@@ -121,10 +121,11 @@ def upload_file():
 				real_file_path = "%s" % os.path.join(image_upload_dir, file_name)
 				os.rename(temp_file_path, real_file_path)
 				return os.path.join(images_dir, file_name)
-			except:
+			except Exception as e:
 				os.remove(temp_file_path)
-				return None
-	return None
+				print e
+				return ""
+	return ""
 
 @app.route('/test/login')
 def test_login():

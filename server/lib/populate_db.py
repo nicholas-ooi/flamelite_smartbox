@@ -19,19 +19,19 @@ def populate_db():
 
 	# Create employee
 	managers = []
-	managers.append(hr.create_employee('Alex', job_titles[0], '', "+65 92223334", emergency_contact_name, emergency_contact_contact, "5000"))
-	managers.append(hr.create_employee('Bobby', job_titles[1], '', "+65 92223335", emergency_contact_name, emergency_contact_contact, "3500"))
-	managers.append(hr.create_employee('Charles', job_titles[1], '', "+65 92223336", emergency_contact_name, emergency_contact_contact, "3500"))
+	managers.append(hr.create_employee('Alex', job_titles[0], 'images/Alex.jpg', "+65 92223334", emergency_contact_name, emergency_contact_contact, "5000"))
+	managers.append(hr.create_employee('Bobby', job_titles[1], 'images/Bobby.jpg', "+65 92223335", emergency_contact_name, emergency_contact_contact, "3500"))
+	managers.append(hr.create_employee('Charles', job_titles[1], 'images/Charles.jpg', "+65 92223336", emergency_contact_name, emergency_contact_contact, "3500"))
 
 	workers = []
-	workers.append(hr.create_employee('David', job_titles[2], '', "+65 92223337", emergency_contact_name, emergency_contact_contact, "2000"))
-	workers.append(hr.create_employee('Eugene', job_titles[2], '', "+65 92223338", emergency_contact_name, emergency_contact_contact, "1900"))
-	workers.append(hr.create_employee('Fabian', job_titles[2], '', "+65 92223339", emergency_contact_name, emergency_contact_contact, "1800"))
-	workers.append(hr.create_employee('George', job_titles[2], '', "+65 92223340", emergency_contact_name, emergency_contact_contact, "1700"))
-	workers.append(hr.create_employee('Henry', job_titles[2], '', "+65 92223341", emergency_contact_name, emergency_contact_contact, "1600"))
-	workers.append(hr.create_employee('Ibrahim', job_titles[2], '', "+65 92223342", emergency_contact_name, emergency_contact_contact, "1500"))
-	workers.append(hr.create_employee('Julian', job_titles[2], '', "+65 92223343", emergency_contact_name, emergency_contact_contact, "1400"))
-	workers.append(hr.create_employee('Kenny', job_titles[2], '', "+65 92223344", emergency_contact_name, emergency_contact_contact, "1300"))
+	workers.append(hr.create_employee('David', job_titles[2], 'images/David.jpg', "+65 92223337", emergency_contact_name, emergency_contact_contact, "2000"))
+	workers.append(hr.create_employee('Eugene', job_titles[2], 'images/Eugene.jpg', "+65 92223338", emergency_contact_name, emergency_contact_contact, "1900"))
+	workers.append(hr.create_employee('Fabian', job_titles[2], 'images/Fabian.jpg', "+65 92223339", emergency_contact_name, emergency_contact_contact, "1800"))
+	workers.append(hr.create_employee('George', job_titles[2], 'images/George.jpg', "+65 92223340", emergency_contact_name, emergency_contact_contact, "1700"))
+	workers.append(hr.create_employee('Henry', job_titles[2], 'images/Henry.jpg', "+65 92223341", emergency_contact_name, emergency_contact_contact, "1600"))
+	workers.append(hr.create_employee('Ibrahim', job_titles[2], 'images/Ibrahim.jpg', "+65 92223342", emergency_contact_name, emergency_contact_contact, "1500"))
+	workers.append(hr.create_employee('Julian', job_titles[2], 'images/Julian.jpg', "+65 92223343", emergency_contact_name, emergency_contact_contact, "1400"))
+	workers.append(hr.create_employee('Kenny', job_titles[2], 'images/Kenny.jpg', "+65 92223344", emergency_contact_name, emergency_contact_contact, "1300"))
 
 	# Create user
 	users = []
@@ -51,12 +51,10 @@ def populate_db():
 	materials.append(pm.create_material('Bullet Resistant Glass', 'Composite panel made up of layer of glass with interlayers of polymer and polycarbonate plates.'))
 
 	# Create project
-	project_1 = pm.create_project(project_title='test', project_description='test',company=companies[0], poc_name='test',poc_contact='test', site_manager=users[1])
+	project_1 = pm.create_project(project_title='West Mall Carpark Basement Doors', project_description='To install 2 x fire rated glass doors at basement 1, lobby 1, 2, and 3.',company=companies[1], poc_name='Julius Tan',poc_contact='+65 9832 4486', site_manager=users[1])
 
 	# Add project materials
 	pm.add_project_material_qty(project_1.project_id, materials[0], 10)
-	pm.add_project_material_qty(project_1.project_id, materials[1], 20)
-	pm.add_project_material_qty(project_1.project_id, materials[2], 30)
 
 	# Add project workers
 	pm.assign_project_workers(project_1.project_id, workers[0])

@@ -8,7 +8,7 @@ import lib.ci as ci
 import json
 import datetime
 
-server_ip = 'localhost'
+server_ip = '192.168.0.107'
 server_port = 8080
 job_titles = ['Project Manager','Site Manager','Worker']
 timeline_names = ['Supply Shipment','Product Manufacture','Installation']
@@ -28,7 +28,7 @@ def login(username, password):
 	user = {}
 	user['user_id'] = retrieved_user.get('user_id')
 	user['name'] = retrieved_user.get('name')
-	user['photo'] = retrieved_user.get('photo')
+	user['photo'] = "http://%s:%s/%s" % (server_ip, server_port, retrieved_user.get('photo'))
 	user['job_title'] = retrieved_user.get('job_title')
 	return json.dumps(user)
 
@@ -202,7 +202,7 @@ def retrieve_project_workers(project_id):
 		worker = {}
 		worker['employee_id'] = retrieved_worker.get('employee_id')
 		worker['name'] = retrieved_worker.get('name')
-		worker['photo'] = retrieved_worker.get('photo')
+		worker['photo'] = "http://%s:%s/%s" % (server_ip, server_port, retrieved_worker.get('photo'))
 		worker['contact'] = retrieved_worker.get('contact')
 		worker['emergency_contact_name'] = retrieved_worker.get('emergency_contact_name')
 		worker['emergency_contact_contact'] = retrieved_worker.get('emergency_contact_contact')

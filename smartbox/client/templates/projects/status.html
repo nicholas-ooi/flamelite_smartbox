@@ -2,7 +2,7 @@
 
   <div class="pushContent">
     <h4 class="stitle pull-left">
-      Status Installing Product
+      Installing Product
     </h4>
     <a href="/updateStatus" class="statusLink pull-right" data-ignore="push">
       <button class="btn btn-positive btn-block">
@@ -24,72 +24,68 @@
       </li>
     </ul>
 
-    <h4 class="stitle">
-      Resolved Issues
-    </h4>
-    <ul class="table-view" id="complaintsTable" style="margin-bottom:0px;">
+
+
+    <ul class="table-view" style="margin-bottom:0px;">
+      <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer-resolved-1">
+        <span>
+          Unresolved Issues ({{unresolvedSize}})
+        </span>
+      </li>
+      <li id="accordian-drawer-resolved-1" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
+        <ul class="table-view" style="border:none;margin-top:5px;margin-bottom:5px;">
+          {{#each unresolved}}
+          <li class="table-view-cell accordion-drawer-content">
+            <h4 class="text-left reco-title h4title"> {{complaint}}</h4>
+            <small> {{date_added}}</small>
+          </li>
+          {{/each}}
+
+        </ul>
+      </li>
+    </ul>
+
+
+<ul class="table-view" style="margin-bottom:0px;">
+  <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer-resolved-0">
+    <span>
+      Resolved Issues ({{resolvedSize}})
+    </span>
+  </li>
+  <li id="accordian-drawer-resolved-0" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
+    <ul class="table-view" style="border:none;margin-top:5px;margin-bottom:5px;">
       {{#each resolved}}
-      <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer-resolved-{{@index}}">
-        <span>
-          {{complaint}}
-        </span>
-      </li>
-      <li id="accordian-drawer-resolved-{{@index}}" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
-        <ul class="table-view">
-          <li class="table-view-cell accordion-drawer-content">
-            <h4 class="text-left reco-title">Complaint</h4>
-            <p> {{complaint}}</p>
-            <small> {{date_added}}</small>
-          </li>
-        </ul>
+      <li class="table-view-cell accordion-drawer-content">
+        <h4 class="text-left reco-title h4title"> {{complaint}}</h4>
+        <small> {{date_added}}</small>
       </li>
       {{/each}}
-    </ul>
 
-    <h4 class="stitle">
-      Unresolved Issues
-    </h4>
-    <ul class="table-view" id="complaintsTable" style="margin-bottom:0px;">
-      {{#each unresolved}}
-      <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer-unresolved-{{@index}}">
-        <span>
-          {{complaint}}
-        </span>
-      </li>
-      <li id="accordian-drawer-unresolved-{{@index}}" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
-        <ul class="table-view">
-          <li class="table-view-cell accordion-drawer-content">
-            <h4 class="text-left reco-title">Complaint</h4>
-            <p> {{complaint}}</p>
-            <small> {{date_added}}</small>
-          </li>
-        </ul>
-      </li>
-      {{/each}}
     </ul>
+  </li>
+</ul>
 
-    <h4 class="stitle">
-      Reviewed Issues
-    </h4>
-    <ul class="table-view" id="complaintsTable">
+
+
+<ul class="table-view" style="margin-bottom:0px;">
+  <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer-resolved-2">
+    <span>
+      Reviewed ({{reviewedSize}})
+    </span>
+  </li>
+  <li id="accordian-drawer-resolved-2" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
+    <ul class="table-view" style="border:none;margin-top:5px;margin-bottom:5px;">
       {{#each reviewed}}
-      <li class="issueRow table-view-cell media reco-cell accordian-title icon icon-down" data-accordian-drawer="accordian-drawer-reviewed-{{@index}}">
-        <span>
-          {{complaint}}
-        </span>
-      </li>
-      <li id="accordian-drawer-reviewed-{{@index}}" class="issueRowDetail table-view-cell media reco-cell accordion-drawer closed">
-        <ul class="table-view">
-          <li class="table-view-cell accordion-drawer-content">
-            <h4 class="text-left reco-title">Complaint</h4>
-            <p> {{complaint}}</p>
-            <small> {{date_added}}</small>
-          </li>
-        </ul>
+      <li class="table-view-cell accordion-drawer-content">
+        <h4 class="text-left reco-title h4title"> {{complaint}}</h4>
+        <small> {{date_added}}</small>
       </li>
       {{/each}}
-    </ul>
 
-  </div>
+    </ul>
+  </li>
+</ul>
+
+</div>
 
 </template>

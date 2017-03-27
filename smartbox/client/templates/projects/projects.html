@@ -19,6 +19,23 @@
         {{/each}}
       </ul>
     </div>
+    <h4 class="stitle">
+      Past Projects
+    </h4>
+    <div class="card">
+      <ul class="table-view">
+        {{#each pastProjects}}
+        <li class="table-view-cell">
+          <a href="/projectDetails/{{project_id}}" class="push-right" data-ignore="push">
+            <strong>{{project_title}}</strong>
+            <p>
+              {{company_name}}
+            </p>
+          </a>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
   </p>
 
 </template>

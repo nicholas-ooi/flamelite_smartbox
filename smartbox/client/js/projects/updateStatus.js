@@ -19,15 +19,20 @@ Template.updateStatus.events({
     };
 
     // faking base64 image data
-    let data = "type:image/jepg;base,ZmFrZQ==";
-    upload(data);
+    // let data = "type:image/jepg;base,ZmFrZQ==";
+    // upload(data);
 
-    // MeteorCamera.getPicture(cameraOptions, function (error, data) {
-    //   if (!error) {
-    //     instance.$('.photo').attr('src', data);
-    //     upload(data);
-    //   }
-    // });
+    MeteorCamera.getPicture(cameraOptions, function (error, data) {
+      if (!error) {
+        instance.$('.photo').attr('src', data);
+        Session.set("photoData",data);
+      }
+    });
+  }
+  ,
+  'submit #updateStatus':(e) =>
+  {
+    upload(Session.get("photoData"));
   }
 
 });
@@ -35,7 +40,7 @@ Template.updateStatus.events({
 
 function upload(data)
 {
-
+  alert(data);
   const file = dataToFile(data);
   var formData = new FormData();
   formData.append('file', file);
@@ -49,6 +54,7 @@ function upload(data)
     async: false,
     success: function(data) {
       console.log(data);
+      alert(data);
     }
   });
 
@@ -57,6 +63,7 @@ function upload(data)
 
 
 function dataToFile(dataURI) {
+  alert(dataURI.split(',')[1]);
   let byteString = atob(dataURI.split(',')[1]);
   let ab = new ArrayBuffer(byteString.length);
   let ia = new Uint8Array(ab);

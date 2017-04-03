@@ -7,8 +7,9 @@ import lib.ci as ci
 
 import json
 import datetime
+import netifaces as ni
 
-server_ip = '192.168.0.107'
+server_ip = ni.ifaddresses('wlp3s0')[2][0]['addr']
 server_port = 8080
 job_titles = ['Project Manager','Site Manager','Worker']
 timeline_names = ['Supply Shipment','Product Manufacture','Installation']

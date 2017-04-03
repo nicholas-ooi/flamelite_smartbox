@@ -11,8 +11,10 @@ from PIL import Image
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
+import netifaces as ni
+
 # globals
-server_ip = '0.0.0.0'
+server_ip = ni.ifaddresses('wlp3s0')[2][0]['addr']
 server_port = 8080
 app = flask.Flask(__name__)
 app.secret_key = os.urandom(24)

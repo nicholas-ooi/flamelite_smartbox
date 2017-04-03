@@ -10,6 +10,7 @@ import datetime
 import netifaces as ni
 
 server_ip = ni.ifaddresses('wlp3s0')[2][0]['addr']
+# server_ip = "192.168.0.102"
 server_port = 8080
 job_titles = ['Project Manager','Site Manager','Worker']
 timeline_names = ['Supply Shipment','Product Manufacture','Installation']
@@ -136,6 +137,7 @@ def retrieve_project_statuses(project_id):
 			}
 			past_statuses.append(status)
 		else:
+			current_status["status_id"] = retrieved_status.get('status_id')
 			current_status['comments'] = retrieved_status.get('comments')
 			current_status['photos'] = photos
 

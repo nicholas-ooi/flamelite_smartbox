@@ -21,6 +21,10 @@
         <small>
           {{current_status.comments}}
         </small>
+        <br />
+        {{#each current_status.photos}}
+            <img class="photoImg" src="{{this}}" alt="" data-action="zoom" />
+        {{/each}}
       </li>
     </ul>
 

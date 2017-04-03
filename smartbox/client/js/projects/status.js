@@ -39,8 +39,18 @@ Template.status.onRendered(function() {
 
 });
 
-Template.status.onCreated(function() {
+Template.status.onDestroyed(function(){
+  Meteor.clearInterval(Session.get("interval"));
+});
 
+Template.status.onRendered(function() {
+
+Session.set("interval",Meteor.setInterval(getData,1000));
+
+});
+
+function getData()
+{
   const id = Session.get("project").project_id;
   HTTP.call("GET", SERVER+"retrieve_project_statuses", {params:{project_id:id}},
   (error, result) => {
@@ -56,12 +66,13 @@ Template.status.onCreated(function() {
       alert(error);
     }
   });
-
-
-
-});
+}
 
 Template.status.helpers({
+
+  host:()=>{
+    return SERVER;
+  },
   past_statuses:() => {
     return Session.get("statuses").past_statuses;
   },

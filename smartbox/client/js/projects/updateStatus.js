@@ -18,10 +18,6 @@ Template.updateStatus.events({
       height: 600
     };
 
-    // faking base64 image data
-    // let data = "type:image/jepg;base,ZmFrZQ==";
-    // upload(data);
-
     MeteorCamera.getPicture(cameraOptions, function (error, data) {
       if (!error) {
         instance.$('.photo').attr('src', data);
@@ -32,7 +28,26 @@ Template.updateStatus.events({
   ,
   'submit #updateStatus':(e) =>
   {
+    e.preventDefault();
     upload(Session.get("photoData"));
+
+    var formData = new FormData();
+    formData.append('project_id',Session.get("project").project_id);
+    formData.append('comments', e.target.comments.value);
+    $.ajax({
+      type: 'POST',
+      url:  SERVER+"submit_project_installed_update",
+      data: formData,
+      contentType: false,
+      cache: false,
+      processData: false,
+      async: false,
+      success: function(data) {
+
+      }
+    });
+
+
   }
 
 });
@@ -40,21 +55,22 @@ Template.updateStatus.events({
 
 function upload(data)
 {
-  alert(data);
-  const file = dataToFile(data);
+  var base64ImageContent = data.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+  var blob = base64ToBlob(base64ImageContent, 'image/jpeg');
   var formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', blob);
+  formData.append('status_id',Session.get("statuses").current_status.status_id);
   $.ajax({
     type: 'POST',
-    url:  SERVER+"upload_file",
+    url:  SERVER+"add_status_photo",
     data: formData,
     contentType: false,
     cache: false,
     processData: false,
     async: false,
     success: function(data) {
-      console.log(data);
-      alert(data);
+      FlowRouter.go("/status");
+
     }
   });
 
@@ -62,26 +78,25 @@ function upload(data)
 }
 
 
-function dataToFile(dataURI) {
-  alert(dataURI.split(',')[1]);
-  let byteString = atob(dataURI.split(',')[1]);
-  let ab = new ArrayBuffer(byteString.length);
-  let ia = new Uint8Array(ab);
-  let ext = "jpg";
-  const fileType = dataURI.split(',')[0].split(";")[0].split(":")[1];
-  const d = new Date();
+function base64ToBlob(base64, mime)
+{
+    mime = mime || '';
+    var sliceSize = 1024;
+    var byteChars = window.atob(base64);
+    var byteArrays = [];
 
-  for (let i = 0, length = byteString.length; i < length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  switch(fileType)
-  {
-    case "image/jpeg":
-    ext = "jpg";
-    break;
-    case "image/png":
-    ext = "png";
-    break;
-  }
-  return new File([ab], d.getTime()+"."+ext, { type: fileType });
-};
+    for (var offset = 0, len = byteChars.length; offset < len; offset += sliceSize) {
+        var slice = byteChars.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, {type: mime});
+}

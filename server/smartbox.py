@@ -15,6 +15,7 @@ import netifaces as ni
 
 # globals
 server_ip = ni.ifaddresses('wlp3s0')[2][0]['addr']
+# server_ip = "192.168.0.102"
 server_port = 8080
 app = flask.Flask(__name__)
 app.secret_key = os.urandom(24)

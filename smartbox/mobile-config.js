@@ -10,6 +10,8 @@ App.info({
 App.setPreference('BackgroundColor', '0xff0000ff');
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('Orientation', 'default');
+App.setPreference('StatusBarOverlaysWebView', 'true');
+App.setPreference('StatusBarStyle', 'lightcontent');
 
 // Add custom tags for a particular PhoneGap/Cordova plugin
 // to the end of generated config.xml.

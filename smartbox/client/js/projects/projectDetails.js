@@ -10,8 +10,6 @@ Template.projectDetails.onCreated(function() {
     Session.set("project", JSON.parse(result.content));
   });
 
-  console.log(Session.get("project"));
-
 });
 
 Template.projectDetails.helpers({

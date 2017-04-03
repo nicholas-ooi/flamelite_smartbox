@@ -10,11 +10,51 @@
         <br />
         <span>Description:</span> {{description}}
         <br />
+        <br />
         <span> Company:</span> {{company}}
         <br />
         <span> POC Name:</span> {{pocName}}
         <br />
         <span> POC Contact:</span> {{pocContact}}
+        <br  />
+        <h5 class="h5title">
+          Materials:
+        </h5>
+        {{#each project_materials}}
+        <p>
+          {{material}}, {{qty}}
+        </p>
+        {{/each}}
+        <h5 class="h5title">
+          Timeline:
+        </h5>
+        <table class="table-custom">
+          <tr class="headertable">
+            <td>
+              Name
+            </td>
+            <td>
+              Start Date
+            </td>
+            <td>
+              End Date
+            </td>
+          </tr>
+
+          {{#each project_timelines}}
+          <tr>
+            <td>
+              {{timeline}}
+            </td>
+            <td>
+              {{start_date}}
+            </td>
+            <td>
+              {{end_date}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
       </p>
     </div>
   </p>

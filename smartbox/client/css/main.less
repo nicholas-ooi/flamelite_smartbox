@@ -70,7 +70,7 @@
 
 .detail span
 {
-    font-weight: bold;
+  font-weight: bold;
 
 }
 
@@ -102,6 +102,12 @@
   border-bottom:1px solid #ccc;
   display: block;
   cursor: pointer;
+  padding:15px;
+}
+.h4title
+{
+  font-size:13px;
+  margin-bottom:1px;
 }
 
 .issueRow span
@@ -123,7 +129,7 @@
 
 .statusLink button
 {
-padding:10px;
+  padding:10px;
 }
 
 .pull-left
@@ -140,6 +146,17 @@ padding:10px;
   padding:0px;
 }
 
+.issueRowDetail ul li
+{
+    background: @subBg;
+    color:@topNavTitle;
+}
+
+.issueRowDetail ul li:first
+{
+  margin-top:10px;
+}
+
 .photoImg
 {
   width:50px;
@@ -148,11 +165,41 @@ padding:10px;
 }
 .boxArea
 {
-    margin-left:9px;
+  margin-left:9px;
 }
 
 .photo
 {
   width:100px;
   height:100px;
+}
+
+.table-custom
+{
+  border:1px solid #ccc;
+}
+
+.table-custom .headertable
+{
+  background: @subBg;
+  color:@topNavTitle;
+  font-weight: bold;
+}
+
+.table-custom tr td
+{
+  border:1px solid #ccc;
+  padding:5px;
+  font-size: 12px;
+}
+
+.h5title
+{
+  font-weight:bold;text-transform:capitalize;
+}
+
+
+.icon-down::before
+{
+  float:right;
 }

@@ -10,6 +10,8 @@ Template.projectDetails.onCreated(function() {
     Session.set("project", JSON.parse(result.content));
   });
 
+  console.log(Session.get("project"));
+
 });
 
 Template.projectDetails.helpers({
@@ -30,7 +32,13 @@ Template.projectDetails.helpers({
   },
   pocContact:() => {
     return Session.get("project").poc_contact;
-  }
+  },
+  project_materials:() => {
+    return Session.get("project").project_materials;
+  },
+  project_timelines:() => {
+    return Session.get("project").project_timelines;
+  },
 });
 
 Template.projectDetails.events({

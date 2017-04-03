@@ -3,26 +3,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 import { HTTP } from 'meteor/http';
 
-Template.status.onCreated(function() {
+Template.status.onRendered(function() {
 
-  const id = Session.get("project").project_id;
-  HTTP.call("GET", SERVER+"retrieve_project_statuses", {params:{project_id:id}},
-  (error, result) => {
-    Session.set("statuses", JSON.parse(result.content));
-  });
-
-  HTTP.call("GET", SERVER+"retrieve_project_complaints", {params:{project_id:id}},
-  (error, result) => {
-    if (!error) {
-      Session.set("complaints", JSON.parse(result.content));
-    }
-    else {
-      alert(error);
-    }
-  });
-
-
-  $('body').on('click', '.accordian-title', function() {
+  $('body').off("click").on('click', '.accordian-title', function() {
     let $this = $(this);
     let $drawer = "#" + $this.data("accordian-drawer");
     $drawer = $($drawer);
@@ -54,6 +37,27 @@ Template.status.onCreated(function() {
     }
   });
 
+});
+
+Template.status.onCreated(function() {
+
+  const id = Session.get("project").project_id;
+  HTTP.call("GET", SERVER+"retrieve_project_statuses", {params:{project_id:id}},
+  (error, result) => {
+    Session.set("statuses", JSON.parse(result.content));
+  });
+
+  HTTP.call("GET", SERVER+"retrieve_project_complaints", {params:{project_id:id}},
+  (error, result) => {
+    if (!error) {
+      Session.set("complaints", JSON.parse(result.content));
+    }
+    else {
+      alert(error);
+    }
+  });
+
+
 
 });
 
@@ -63,6 +67,15 @@ Template.status.helpers({
   },
   current_status:() => {
     return Session.get("statuses").current_status;
+  },
+  resolvedSize:() => {
+    return Session.get("complaints").resolved.length;
+  },
+  unresolvedSize:() => {
+    return Session.get("complaints").unresolved.length;
+  },
+  reviewedSize:() => {
+    return Session.get("complaints").reviewed.length;
   },
   resolved:() => {
     return Session.get("complaints").resolved;
